@@ -1,10 +1,10 @@
 public interface Stack<T>{
-    void Push(String num);
+    void Push(T num);
     //post:Agregar el dato al stack
-    void Pop();
+    T Pop();
     //pre:revisar que no este vacio
     //post: eliminar un elemento del stack
-    void Peek();
+    T Peek();
     //pre: que el stack no este vacio
     //post: muestra el stack mas reciente
     int Size();

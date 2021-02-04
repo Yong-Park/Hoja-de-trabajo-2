@@ -1,112 +1,64 @@
-import java.io.IOException;
+import java.util.*;
+
 public class Calculadora implements CalculadoraGeneral {
     //atributos
-    StackVector<String> vector;
     Float num1=0f;
     Float num2=0f;
+    String operacion;
     Float resultado = 0f;
     boolean calcular=true;
     int dato = 0;
     int tamano = 0;
-    //correr el stackvector para realizar la lectura del archivo txt
-    public Calculadora() throws IOException{
-        vector = new StackVector<String>();
-    }
 
     //realizar la operacion
-    public void Calculo(){
-        //mostrar el stack
-        System.out.println("stack general " + vector.stack);
-        //realizar la operacion
-        try{
-            do{
-                //comenzar a guardar datos en el stack
-                if(vector.stack.get(dato).equals("+")){
-                    //guardar dato
-                    tamano = vector.Size();
-                    num1= vector.numeros.get(tamano-1);
-                    vector.Pop();
-                    tamano = vector.Size();
-                    num2=vector.numeros.get(tamano-1);
-                    vector.Pop();
-
-                    //realizar la suma
-                    resultado = num1 + num2;
-                    System.out.println(num1+ " + " +num2 + "= " + resultado);
-                    //agregarlo al stack
-                    String res =String.valueOf(resultado);
-                    vector.Push(res);
-                    vector.Remove();
-                }else if(vector.stack.get(dato).equals("-")){
-                    //guardar dato
-                    tamano = vector.Size();
-                    num1= vector.numeros.get(tamano-1);
-                    vector.Pop();
-                    tamano = vector.Size();
-                    num2=vector.numeros.get(tamano-1);
-                    vector.Pop();
-
-                    //realizar la resta
-                    resultado = num1 - num2;
-                    System.out.println(num1+ " - " +num2 + "= " + resultado);
-                    //agregarlo al stack
-                    String res =String.valueOf(resultado);
-                    vector.Push(res);
-                    vector.Remove();
-                }else if(vector.stack.get(dato).equals("*")){
-                    //guardar dato
-                    tamano = vector.Size();
-                    num1= vector.numeros.get(tamano-1);
-                    vector.Pop();
-                    tamano = vector.Size();
-                    num2=vector.numeros.get(tamano-1);
-                    vector.Pop();
-
-                    //realizar la multiplicacion
-                    resultado = num1 * num2;
-                    System.out.println(num1+ " * " +num2 + "= " + resultado);
-                    //agregarlo al stack
-                    String res =String.valueOf(resultado);
-                    vector.Push(res);
-                    vector.Remove();
-                }else if(vector.stack.get(dato).equals("/")){
-                    //guardar dato
-                    tamano = vector.Size();
-                    num1= vector.numeros.get(tamano-1);
-                    vector.Pop();
-                    tamano = vector.Size();
-                    num2=vector.numeros.get(tamano-1);
-                    vector.Pop();
-
-                    //realizar la division
-                    resultado = num1 / num2;
-                    System.out.println(num1+ " / " +num2 + "= " + resultado);
-                    //agregarlo al stack
-                    String res =String.valueOf(resultado);
-                    vector.Push(res);
-                    vector.Remove();
-                }else{
-                    //si es un numero agregarlo al stack
-                    vector.Push(vector.stack.get(dato));
-                    vector.Remove();
-                }
-                                
-                //sumar para segir con la lectura de datos
-                dato++;
-                
-                //verificar
-                System.out.println("Stack " + vector.numeros);
-                //revisar que ya no hayan mas datos ni expresioens
-                if(vector.Empty()){
-                    calcular=false;
-                }
-            }while(calcular);
-
-            System.out.println("El resultado es " + vector.numeros.get((vector.Size()-1)));
-        }catch(Exception e){
-            System.out.println("No se puede realizar esta operacion");
+    public String Calculo(String linea){
+        //defnir clases
+        Stack<Float> numeros= new StackVector<Float>();
+        Stack<String> signos = new StackVector<String>();
+        
+        //crear el vector
+        Vector<String> vec = new Vector<String>();
+        //separarlo
+        String[] vect = linea.split(" ");
+        //agregrlo al vector 
+        for(int i=0; i<vect.length;i++){
+            vec.add(vect[i]);
         }
 
+        //guardar segun el tipo de dato que sea
+        for(int i=0; i<vec.size();i++){
+            try{
+                float numero = Float.parseFloat(vec.get(i));
+                numeros.Push(numero);
+            }catch(Exception e){
+                signos.Push(vec.get(i));
+                //revisar si hay alguna operacion despues de dos datos numericos
+                if(numeros.Size()>=2){
+                    num1 = numeros.Pop();
+                    num2 = numeros.Pop();
+                    operacion = signos.Pop();
+                    //operar segun el signo
+                    if(operacion.equals("+")){
+                    resultado = num1 + num2;
+                    }else if(operacion.equals("-")){
+                        resultado = num2 - num1; 
+                    }else if(operacion.equals("/")){
+                        resultado = num2 / num1;
+                    }else if(operacion.equals("*")){
+                        resultado = num1 * num2;
+                    }
+                    //agregar el resultado al stack
+                    numeros.Push(resultado);
+                }
+            }
+        }
+        
+        //resultado
+        if(!signos.Empty()){
+            return "Este no se puede operar";
+        }
+        String resultadoTexto = String.valueOf(resultado);
+        return resultadoTexto;
     }
     
 }
