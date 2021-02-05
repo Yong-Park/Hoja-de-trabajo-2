@@ -1,3 +1,4 @@
+
 import java.util.*;
 
 public class Calculadora implements CalculadoraGeneral {
@@ -10,6 +11,11 @@ public class Calculadora implements CalculadoraGeneral {
     int dato = 0;
     int tamano = 0;
 
+    
+    /** 
+     * @param linea
+     * @return String
+     */
     //realizar la operacion
     public String Calculo(String linea){
         //defnir clases
