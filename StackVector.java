@@ -2,8 +2,6 @@ import java.util.ArrayList;
 public class StackVector<T> implements Stack<T>{
     //arrays
     protected ArrayList<T> data= new ArrayList<T>();   
-    Float conversion;
-    
     
     /** 
      * @param dato

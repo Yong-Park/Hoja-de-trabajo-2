@@ -7,10 +7,6 @@ public class Calculadora implements CalculadoraGeneral {
     Float num2=0f;
     String operacion;
     Float resultado = 0f;
-    boolean calcular=true;
-    int dato = 0;
-    int tamano = 0;
-
     
     /** 
      * @param linea
